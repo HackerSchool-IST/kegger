@@ -1,0 +1,15 @@
+{
+  "name": "kegger",
+  "version": "1.0.0",
+  "description": "Poor beers like a boss",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "HackerSchool IST>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:HackerSchool-IST/kegger.git"
+  },
+  "license": "BSD"
+}
