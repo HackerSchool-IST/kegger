@@ -1,0 +1,10 @@
+<div>
+<div ng-click="setItem(1)" class="red left corner"><span>+1</span></div>
+<div ng-click="setItem(2)" class="blue right corner"><span>+2</span></div>
+<div ng-click="setItem(3)" class="green left corner"><span>+3</span></div>
+<div ng-click="setItem(6)" class="yellow right corner"><span>+6</span></div>
+<div class="menu">
+  <span>{{ currentCount }}</span>
+  <select ng-model="itemType" ng-options=" itemType for itemType in itemTypes" ng-change="updateCounter()"></select>
+  <a class="btn" ng-href="#/admin">+</a>
+</div>

@@ -12,8 +12,11 @@ itemSchema.statics.number = function (typeS, cb) {
 itemSchema.statics.countWithId = function (itemId, cb) {
   this.count({_id : itemId},cb);
 }
+itemSchema.statics.findAllWithType = function (typeS,cb) {
+  this.find({type: typeS}).sort({timestamp:-1}).exec(cb);
+};
 itemSchema.statics.findAll = function (cb) {
-  this.find({}, cb);
+  this.find({}).sort({timestamp:-1}).exec(cb);
 };
 
 itemSchema.statics.remv = function(itemId,cb){

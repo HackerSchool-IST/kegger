@@ -28,8 +28,26 @@ server.route({
     var item = require('./db/models/item.js');
     item.findAll(function (err, result) {
       if (err) {
-        reply.status(404);
-        reply({error: "There was an error getting all the hackers."});
+        reply({error: "There was an error getting all the items."}).code(400);
+      }
+      else {
+        reply(result);
+      }
+    })
+  }
+});
+
+server.route({
+  path: "/api/all/{type}",
+  method: "GET",
+  handler: function list(request, reply) {
+    if(!request.params.type.match(alphanumExp)){
+      reply({error: "Please insert a valid type"}).code(400);
+    }
+    var item = require('./db/models/item.js');
+    item.findAllWithType(request.params.type,function (err, result) {
+      if (err) {
+        reply({error: "There was an error getting items."}).code(400);
       }
       else {
         reply(result);
@@ -43,14 +61,12 @@ server.route({
   method: "GET",
   handler: function list(request, reply) {
     if(!request.params.type.match(alphanumExp)){
-      reply.status(404);
-      reply({error: "Please insert a valid type"});
+      reply({error: "Please insert a valid type"}).code(400);
     }
     var item = require('./db/models/item.js');
     item.number(request.params.type,function (err, result) {
       if (err) {
-        reply.status(404);
-        reply({error: "There was an error getting all the hackers."});
+        reply({error: "We had a problem counting items, try r/counting."}).code(400);
       }
       else {
         reply({count:result});
@@ -64,22 +80,18 @@ server.route({
   method: "DELETE",
   handler: function create(request, reply) {
     if(!request.params.id.match(alphanumExp)){
-      reply.status(404);
-      reply({error: "Please insert a valid id"});
+      reply({error: "Please insert a valid id"}).code(400);
       return;
     }
     var item = require('./db/models/item.js');
 
     item.countWithId(request.params.id,function(err,result){
       if(err || result < 1){
-        reply.status(404);
-
-        reply({error: "Item doesn't exit"});
+        reply({error: "Item doesn't exit"}).code(400);
       }else{
         item.remv(request.params.id,function (err, result) {
           if (err) {
-            reply.status(404)
-              reply({error: "There was an error deleting item"});
+              reply({error: "There was an error deleting item"}).code(400);
           }
           else {
             reply({success: "Item removed"});

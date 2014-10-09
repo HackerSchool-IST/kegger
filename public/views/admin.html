@@ -1,0 +1,22 @@
+<div class="topbar"><a class="btn" ng-href="#/">&lt&lt Voltar</a>
+<span>Filtrar por:</span> <select  ng-model="itemType" ng-options=" itemType for itemType in itemTypes" ng-change="refreshList()"></select>
+<span class="pull-right">v0.2-beta</span>
+</div>
+<div>
+<table class="table table-stripped">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Time</th>
+      <th>Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="item in itemsList track by $index" ng-class="{warning: item.removing, danger:item.failed}">
+      <td>{{ item.type }}</td>
+      <td>{{ item.timestamp |  date:'HH:mm:ss dd-MMM' }}</td>
+      <td><button class="btn" ng-click="remove($index)">Remove</button</td>
+    </tr>
+  </tbody>
+</table>
+</div>
