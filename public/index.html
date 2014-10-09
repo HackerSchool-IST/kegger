@@ -1,0 +1,27 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Kegger</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="styles/main.css">
+  </head>
+  <body ng-app="keggerApp" ng-controller="cornersCtrl">
+    <div class="container">
+      <div ng-click="setItem(1)" class="red left corner"><span>+1</span></div>
+      <div ng-click="setItem(2)" class="blue right corner"><span>+2</span></div>
+      <div ng-click="setItem(3)" class="green left corner"><span>+3</span></div>
+      <div ng-click="setItem(6)" class="yellow right corner"><span>+6</span></div>
+    </div>
+    <div class="menu">
+      <span>{{ currentCount }}</span>
+      <select ng-model="itemType" ng-options=" itemType for itemType in itemTypes" ng-change="updateCounter()"></select>
+      <button>+</button>
+      </div>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script src="scripts/app.js"></script>
+  </body>
+</html>

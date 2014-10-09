@@ -3,11 +3,10 @@ var Hapi = require("hapi");
 var server = new Hapi.Server(8001, "localhost");
 require("./db");
 
-var alphanumExp = /^[a-z0-9]+$/i;
+var alphanumExp = /^[-a-z0-9]+$/i;
 server.start(function(){
   console.log("Hapi server started @", server.info.uri);
 });
-
 
 
 server.route({
@@ -17,19 +16,10 @@ server.route({
     directory: {
       path: "./public",
       listing: false,
-      index: false
+      index: true
     }
   }
 });
-
-server.route({
-  path: "/",
-  method: "GET",
-  handler: function(request, reply) {
-    reply("Hello");
-  }
-});
-
 
 server.route({
   path: "/api/all",
@@ -38,6 +28,7 @@ server.route({
     var item = require('./db/models/item.js');
     item.findAll(function (err, result) {
       if (err) {
+        reply.status(404);
         reply({error: "There was an error getting all the hackers."});
       }
       else {
@@ -52,15 +43,17 @@ server.route({
   method: "GET",
   handler: function list(request, reply) {
     if(!request.params.type.match(alphanumExp)){
+      reply.status(404);
       reply({error: "Please insert a valid type"});
     }
     var item = require('./db/models/item.js');
     item.number(request.params.type,function (err, result) {
       if (err) {
+        reply.status(404);
         reply({error: "There was an error getting all the hackers."});
       }
       else {
-        reply(result);
+        reply({count:result});
       }
     })
   }
@@ -71,6 +64,7 @@ server.route({
   method: "DELETE",
   handler: function create(request, reply) {
     if(!request.params.id.match(alphanumExp)){
+      reply.status(404);
       reply({error: "Please insert a valid id"});
       return;
     }
@@ -78,11 +72,14 @@ server.route({
 
     item.countWithId(request.params.id,function(err,result){
       if(err || result < 1){
+        reply.status(404);
+
         reply({error: "Item doesn't exit"});
       }else{
         item.remv(request.params.id,function (err, result) {
           if (err) {
-            reply({error: "There was an error deleting item"});
+            reply.status(404)
+              reply({error: "There was an error deleting item"});
           }
           else {
             reply({success: "Item removed"});
@@ -100,10 +97,12 @@ server.route({
   handler: function create(request, reply) {
 
     if(!request.params.type.match(alphanumExp)){
+      reply.status(404);
       reply({error: "Please insert a valid type"});
     }
     var itemModel = require('./db/models/item.js');
-    if( !isNaN(request.params.number)){
+    if(isNaN(request.params.number)){
+      reply.status(404);
       reply({error: "Please insert a number of "+request.params.type+" to add"});
       return;
     }
@@ -113,6 +112,7 @@ server.route({
       item.type = request.params.type; 
       item.save(function (err) {
         if (err) {
+          reply.status(404);
           reply({error: "There was an error creating the item."});
         }       
         else {

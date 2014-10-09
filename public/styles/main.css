@@ -1,0 +1,46 @@
+.left {
+  float:left;
+}
+.right {
+  float:right;
+}
+.red  {
+  background:#0a0;
+}
+.blue {
+  background:#1ad;
+}
+.yellow {
+  background:#a80;
+}
+.green {
+  background:#a00;
+}
+
+.corner {
+  width: 50%;
+  height: 50%;
+  text-align: center;
+}
+
+.corner span {
+  position:relative;
+  top:50%;
+  transform: translateY(-50%);
+}
+.menu {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  background: #566;
+  padding: 1em;
+  white-space:nowrap;
+}
+.menu > * {
+  color: #aaa;
+  background: #566;
+  border: none;
+  padding:0 0.2em;
+}
+html,body,.container { height: 100%; margin: 0px; padding: 0px; }
