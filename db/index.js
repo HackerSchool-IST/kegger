@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var mongo_url = "mongodb://localhost/hackerschool";
+var mongo_url = "mongodb://localhost/hs-beerhub";
 
 mongoose.connect(mongo_url);
 var db = mongoose.connection;

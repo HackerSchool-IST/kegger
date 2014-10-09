@@ -31,133 +31,37 @@ server.route({
 
 
 server.route({
-    path: "/keg",
+    path: "/api/{type}",
     method: "GET",
     handler: function list(request, reply) {
-        var keg = require('./db/models/keg.js');
-
-      keg.count(gotkeg);
-
-      function gotkeg(err, result) {
+      var item = require('./db/models/item.js');
+      item.number(request.params.type,function (err, result) {
         if (err) {
           reply({error: "There was an error getting all the hackers."});
         }
         else {
           reply(result);
         }
-      }
-
+      })
     }
 });
 
 server.route({
-    path: "/keg/{number}",
+    path: "/api/{type}/{number}",
     method: "POST",
     handler: function create(request, reply) {
 
-    var kegModel = require('./db/models/keg.js');
-    for(var i = 0; i <request.params.number; i++){
-        var keg = new kegModel(request.payload, Date.now());
-
-      keg.save(function (err) {
+    var itemModel = require('./db/models/item.js');
+   for(var i = 0; i <request.params.number; i++){
+      var item = new itemModel(request.payload);
+      item.timestamp = Date.now();
+      item.type = request.params.type; 
+      item.save(function (err) {
         if (err) {
-          reply({error: "There was an error creating the keg."});
+          reply({error: "There was an error creating the item."});
         }       
         else {
-          keg.timestamp = Date.now()
-          reply({
-            success: "keg created.",
-          });
-        }
-      });
-      }
-    }
-});
-
-
-server.route({
-    path: "/ticket",
-    method: "GET",
-    handler: function list(request, reply) {
-        var ticket = require('./db/models/ticket.js');
-
-      ticket.count(gotticket);
-
-      function gotticket(err, result) {
-        if (err) {
-          reply({error: "There was an error getting all the hackers."});
-        }
-        else {
-          reply(result);
-        }
-      }
-
-    }
-});
-
-server.route({
-    path: "/ticket/{number}",
-    method: "POST",
-    handler: function create(request, reply) {
-
-    var ticketModel = require('./db/models/ticket.js');
-    for(var i = 0; i <request.params.number; i++){
-        var ticket = new ticketModel(request.payload, Date.now());
-
-      ticket.save(function (err) {
-        if (err) {
-          reply({error: "There was an error creating the ticket."});
-        }       
-        else {
-          ticket.timestamp = Date.now()
-          reply({
-            success: "ticket created.",
-          });
-        }
-      });
-      }
-    }
-});
-
-
-server.route({
-    path: "/beer",
-    method: "GET",
-    handler: function list(request, reply) {
-        var beer = require('./db/models/beer.js');
-
-      beer.count(gotbeer);
-
-      function gotbeer(err, result) {
-        if (err) {
-          reply({error: "There was an error getting all the hackers."});
-        }
-        else {
-          reply(result);
-        }
-      }
-
-    }
-});
-
-server.route({
-    path: "/beer/{number}",
-    method: "POST",
-    handler: function create(request, reply) {
-
-    var beerModel = require('./db/models/beer.js');
-    for(var i = 0; i <request.params.number; i++){
-        var beer = new beerModel(request.payload, Date.now());
-
-      beer.save(function (err) {
-        if (err) {
-          reply({error: "There was an error creating the beer."});
-        }       
-        else {
-          beer.timestamp = Date.now()
-          reply({
-            success: "beer created.",
-          });
+          reply({success: "item created."});
         }
       });
       }
