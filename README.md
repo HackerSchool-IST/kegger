@@ -7,3 +7,4 @@ The purpose was to count how many beverages have been sold and served. This woul
 
 This is made free and open source under the AGPLv3 license.
 
+Never used :(
